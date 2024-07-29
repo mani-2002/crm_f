@@ -1,11 +1,13 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
+import { useNavigate } from "react-router-dom";
+import { jwtDecode } from "jwt-decode";
 
 const Login = () => {
   const [userName, setUserName] = useState("");
   const [password, setPassword] = useState("");
   const [message, setMessage] = useState("");
-  const [role, setRole] = useState("");
+  const navigate = useNavigate();
 
   axios.defaults.withCredentials = true;
 
@@ -16,6 +18,15 @@ const Login = () => {
         userName,
         password,
       });
+      const { token } = response.data;
+      localStorage.setItem("token", token);
+      const decodedToken = jwtDecode(token);
+
+      if (decodedToken.role === "admin") {
+        navigate("/admin-dashboard");
+      } else {
+        navigate("/user-dashboard");
+      }
       setMessage(response.data.message);
       setUserName("");
       setPassword("");
@@ -26,10 +37,11 @@ const Login = () => {
   useEffect(() => {
     axios.get("http://localhost:3001/login").then((response) => {
       if (response.data.loggedIn) {
-        setRole(response.data.user[0].role);
+        console.log("your session haven't expired yet... ");
       }
     });
   }, []);
+
   return (
     <div style={{ border: "1px solid black" }}>
       <form
