@@ -1,21 +1,3 @@
-// import React from "react";
-// import { Link } from "react-router-dom";
-
-// const UserDashboard = () => {
-//   const handleLogout = () => {
-//     localStorage.removeItem("token");
-//   };
-//   return (
-//     <div>
-//       UserDashboard
-//       <Link to="/">
-//         <button onClick={handleLogout}>Logout</button>
-//       </Link>
-//     </div>
-//   );
-// };
-
-// export default UserDashboard;
 import React, { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 
@@ -37,7 +19,9 @@ const UserDashboard = () => {
   return (
     <div>
       UserDashboard
-      <button onClick={handleLogout}>Logout</button>
+      <button onClick={handleLogout} className="btn btn-danger">
+        Logout
+      </button>
     </div>
   );
 };

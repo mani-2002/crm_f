@@ -43,39 +43,46 @@ const Login = () => {
   }, []);
 
   return (
-    <div style={{ border: "1px solid black" }}>
-      <form
-        style={{
-          display: "flex",
-          alignItems: "center",
-          justifyContent: "center",
-          height: "50vh",
-          flexDirection: "column",
-        }}
-        onSubmit={handleLogin}
-      >
-        <input
-          type="text"
-          placeholder="Enter Username..."
-          value={userName}
-          onChange={(e) => {
-            setUserName(e.target.value);
+    <div style={{ border: "1px solid black", padding: "5vh" }}>
+      <div style={{ textAlign: "center" }}>
+        <h1>Login to Your Portal...</h1>
+      </div>
+      <div>
+        <form
+          style={{
+            display: "flex",
+            alignItems: "center",
+            justifyContent: "center",
+            height: "50vh",
+            flexDirection: "column",
           }}
-        />
-        <br />
-        <input
-          type="password"
-          placeholder="Enter Password"
-          value={password}
-          onChange={(e) => {
-            setPassword(e.target.value);
-          }}
-        />
-        <br />
-        <input type="submit" />
-        <br />
-        {message && <p>{message}</p>}
-      </form>
+          onSubmit={handleLogin}
+        >
+          <input
+            type="text"
+            placeholder="Enter Username..."
+            value={userName}
+            onChange={(e) => {
+              setUserName(e.target.value);
+            }}
+            className="form-control w-25"
+          />
+          <br />
+          <input
+            type="password"
+            placeholder="Enter Password"
+            value={password}
+            onChange={(e) => {
+              setPassword(e.target.value);
+            }}
+            className="form-control w-25"
+          />
+          <br />
+          <input type="submit" className="btn btn-primary" />
+          <br />
+          {message && <p style={{ color: "red" }}>{message}</p>}
+        </form>
+      </div>
     </div>
   );
 };

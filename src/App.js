@@ -10,6 +10,7 @@ import Login from "./components/Login";
 import Signup from "./components/Signup";
 import AdminDashboard from "./pages/AdminDashboard";
 import UserDashboard from "./pages/UserDashboard";
+import "bootstrap/dist/css/bootstrap.css";
 
 const App = () => {
   const PrivateRoute = ({ element }) => {

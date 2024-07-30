@@ -1,22 +1,3 @@
-// import React from "react";
-// import { Link } from "react-router-dom";
-
-// const AdminDashboard = () => {
-//   const handleLogout = () => {
-//     localStorage.removeItem("token");
-//   };
-//   return (
-//     <div>
-//       AdminDashboard
-//       <Link to="/">
-//         <button onClick={handleLogout}>Logout</button>
-//       </Link>
-//     </div>
-//   );
-// };
-
-// export default AdminDashboard;
-
 import React, { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 
@@ -38,7 +19,9 @@ const AdminDashboard = () => {
   return (
     <div>
       AdminDashboard
-      <button onClick={handleLogout}>Logout</button>
+      <button onClick={handleLogout} className="btn btn-danger">
+        Logout
+      </button>
     </div>
   );
 };
