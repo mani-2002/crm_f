@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import axios from "axios";
+import { Link } from "react-router-dom";
 
 const Signup = () => {
   const [mobileNumber, setMobileNumber] = useState("");
@@ -26,7 +27,18 @@ const Signup = () => {
   };
 
   return (
-    <div style={{ border: "1px solid black", padding: "5vh" }}>
+    <div style={{ padding: "5vh" }}>
+      <nav
+        style={{
+          display: "flex",
+          width: "100%",
+          alignItems: "center",
+          justifyContent: "space-around",
+        }}
+      >
+        <Link to="/">Login</Link>
+        <Link to="/signup">Signup</Link>
+      </nav>
       <div style={{ textAlign: "center" }}>
         <h1>Register Your Company here...</h1>
       </div>

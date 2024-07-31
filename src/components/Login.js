@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import { jwtDecode } from "jwt-decode";
+import { Link } from "react-router-dom";
 
 const Login = () => {
   const [userName, setUserName] = useState("");
@@ -43,7 +44,18 @@ const Login = () => {
   }, []);
 
   return (
-    <div style={{ border: "1px solid black", padding: "5vh" }}>
+    <div style={{ padding: "5vh" }}>
+      <nav
+        style={{
+          display: "flex",
+          width: "100%",
+          alignItems: "center",
+          justifyContent: "space-around",
+        }}
+      >
+        <Link to="/">Login</Link>
+        <Link to="/signup">Signup</Link>
+      </nav>
       <div style={{ textAlign: "center" }}>
         <h1>Login to Your Portal...</h1>
       </div>
