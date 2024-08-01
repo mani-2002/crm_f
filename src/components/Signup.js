@@ -1,15 +1,19 @@
 import React, { useState } from "react";
 import axios from "axios";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
+import "bootstrap/dist/css/bootstrap.min.css"; // Ensure Bootstrap is imported
 
 const Signup = () => {
   const [mobileNumber, setMobileNumber] = useState("");
   const [userName, setUserName] = useState("");
   const [password, setPassword] = useState("");
   const [message, setMessage] = useState("");
+  const [loading, setLoading] = useState(false);
+  const navigate = useNavigate();
 
   const handleRegister = async (e) => {
     e.preventDefault();
+    setLoading(true); // Set loading to true when the request starts
     try {
       const response = await axios.post("http://localhost:3001/signup", {
         mobileNumber,
@@ -21,8 +25,11 @@ const Signup = () => {
       setMobileNumber("");
       setUserName("");
       setPassword("");
+      navigate("/");
     } catch (error) {
       setMessage(error.response.data.message);
+    } finally {
+      setLoading(false); // Set loading to false when the request is finished
     }
   };
 
@@ -33,11 +40,23 @@ const Signup = () => {
           display: "flex",
           width: "100%",
           alignItems: "center",
-          justifyContent: "space-around",
+          justifyContent: "right",
         }}
       >
-        <Link to="/">Login</Link>
-        <Link to="/signup">Signup</Link>
+        <div
+          style={{
+            width: "20%",
+            display: "flex",
+            justifyContent: "space-around",
+          }}
+        >
+          <Link to="/" className="btn btn-primary">
+            Login
+          </Link>
+          <Link to="/signup" className="btn btn-success">
+            Signup
+          </Link>
+        </div>
       </nav>
       <div style={{ textAlign: "center" }}>
         <h1>Register Your Company here...</h1>
@@ -84,7 +103,15 @@ const Signup = () => {
             className="form-control w-25"
           />
           <br />
-          <input type="submit" className="btn btn-success" />
+          <button type="submit" className="btn btn-success">
+            {loading ? (
+              <div className="spinner-border text-light" role="status">
+                <span className="visually-hidden">Loading...</span>
+              </div>
+            ) : (
+              "Register"
+            )}
+          </button>
           <br />
           {message && <p style={{ color: "red" }}>{message}</p>}
         </form>

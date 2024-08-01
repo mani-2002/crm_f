@@ -3,17 +3,20 @@ import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import { jwtDecode } from "jwt-decode";
 import { Link } from "react-router-dom";
+import { Spinner } from "react-bootstrap";
 
 const Login = () => {
   const [userName, setUserName] = useState("");
   const [password, setPassword] = useState("");
   const [message, setMessage] = useState("");
+  const [loading, setLoading] = useState(false); // New state for loading
   const navigate = useNavigate();
 
   axios.defaults.withCredentials = true;
 
   const handleLogin = async (e) => {
     e.preventDefault();
+    setLoading(true); // Show spinner when login starts
     try {
       const response = await axios.post("http://localhost:3001/login", {
         userName,
@@ -33,12 +36,15 @@ const Login = () => {
       setPassword("");
     } catch (error) {
       setMessage(error.response.data.message);
+    } finally {
+      setLoading(false); // Hide spinner once login is done
     }
   };
+
   useEffect(() => {
     axios.get("http://localhost:3001/login").then((response) => {
       if (response.data.loggedIn) {
-        console.log("your session haven't expired yet... ");
+        console.log("your session haven't expired yet...");
       }
     });
   }, []);
@@ -50,11 +56,23 @@ const Login = () => {
           display: "flex",
           width: "100%",
           alignItems: "center",
-          justifyContent: "space-around",
+          justifyContent: "right",
         }}
       >
-        <Link to="/">Login</Link>
-        <Link to="/signup">Signup</Link>
+        <div
+          style={{
+            width: "20%",
+            display: "flex",
+            justifyContent: "space-around",
+          }}
+        >
+          <Link to="/" className="btn btn-primary">
+            Login
+          </Link>
+          <Link to="/signup" className="btn btn-success">
+            Signup
+          </Link>
+        </div>
       </nav>
       <div style={{ textAlign: "center" }}>
         <h1>Login to Your Portal...</h1>
@@ -78,6 +96,7 @@ const Login = () => {
               setUserName(e.target.value);
             }}
             className="form-control w-25"
+            disabled={loading} // Disable input when loading
           />
           <br />
           <input
@@ -88,10 +107,17 @@ const Login = () => {
               setPassword(e.target.value);
             }}
             className="form-control w-25"
+            disabled={loading} // Disable input when loading
           />
           <br />
-          <input type="submit" className="btn btn-primary" />
+          <input
+            type="submit"
+            className="btn btn-primary"
+            disabled={loading}
+            value="Login"
+          />
           <br />
+          {loading && <Spinner animation="border" />}
           {message && <p style={{ color: "red" }}>{message}</p>}
         </form>
       </div>
