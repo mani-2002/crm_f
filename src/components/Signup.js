@@ -15,7 +15,7 @@ const Signup = () => {
     e.preventDefault();
     setLoading(true); // Set loading to true when the request starts
     try {
-      const response = await axios.post("http://localhost:3001/signup", {
+      const response = await axios.post("https://crmb.onrender.com/signup", {
         mobileNumber,
         userName,
         password,

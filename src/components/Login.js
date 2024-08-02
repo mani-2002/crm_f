@@ -18,7 +18,7 @@ const Login = () => {
     e.preventDefault();
     setLoading(true); // Show spinner when login starts
     try {
-      const response = await axios.post("http://localhost:3001/login", {
+      const response = await axios.post("https://crmb.onrender.com/login", {
         userName,
         password,
       });
@@ -42,7 +42,7 @@ const Login = () => {
   };
 
   useEffect(() => {
-    axios.get("http://localhost:3001/login").then((response) => {
+    axios.get("https://crmb.onrender.com/login").then((response) => {
       if (response.data.loggedIn) {
         console.log("your session haven't expired yet...");
       }
