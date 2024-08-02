@@ -36,10 +36,13 @@ const UserDashboard = () => {
   const sendMessage = async (e) => {
     e.preventDefault();
     try {
-      const response = await axios.post("http://localhost:3001/user_message", {
-        message,
-        token,
-      });
+      const response = await axios.post(
+        "https://crmb.onrender.com/user_message",
+        {
+          message,
+          token,
+        }
+      );
       setMessageStatus(response.data.message);
       setMessage("");
       setShowToast(true);
@@ -56,7 +59,7 @@ const UserDashboard = () => {
       try {
         const token = localStorage.getItem("token");
         const response = await axios.get(
-          "http://localhost:3001/user_messages",
+          "https://crmb.onrender.com/user_messages",
           {
             headers: {
               Authorization: `${token}`,
