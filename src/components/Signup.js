@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import axios from "axios";
 import { Link, useNavigate } from "react-router-dom";
-import "bootstrap/dist/css/bootstrap.min.css"; 
+import "bootstrap/dist/css/bootstrap.min.css";
 
 const Signup = () => {
   const [mobileNumber, setMobileNumber] = useState("");
@@ -15,7 +15,7 @@ const Signup = () => {
     e.preventDefault();
     setLoading(true);
     try {
-      const response = await axios.post("https://crmb.onrender.com/signup", {
+      const response = await axios.post("http://localhost:3001/signup", {
         mobileNumber,
         userName,
         password,
