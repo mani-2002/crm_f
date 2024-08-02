@@ -22,18 +22,11 @@ const AdminDashboard = () => {
     navigate("/");
   };
 
-  //content changing buttons
-  // const [chatContent, setChatContent] = useState("default");
-  // const handleChatClick = (content) => {
-  //   setChatContent(content);
-  // };
-
-  //socket connection
+  //for web sockets
   const [notifications, setNotifications] = useState([]);
-
   useEffect(() => {
     socket.on("receiveMessage", (message) => {
-      console.log("Received Message:", message);
+      console.log("Received message:", message);
       setNotifications((prevNotifications) => [...prevNotifications, message]);
     });
     return () => {
@@ -80,42 +73,6 @@ const AdminDashboard = () => {
             justifyContent: "center",
           }}
         >
-          {/* <button
-            className="btn"
-            style={{ border: "1px solid black", width: "95%" }}
-            onClick={() => {
-              handleChatClick("chat1");
-            }}
-          >
-            chat 1
-          </button>
-          <button
-            className="btn"
-            style={{ border: "1px solid black", width: "95%" }}
-            onClick={() => {
-              handleChatClick("chat2");
-            }}
-          >
-            chat 2
-          </button>
-          <button
-            className="btn"
-            style={{ border: "1px solid black", width: "95%" }}
-            onClick={() => {
-              handleChatClick("chat3");
-            }}
-          >
-            chat 3
-          </button>
-          <button
-            className="btn"
-            style={{ border: "1px solid black", width: "95%" }}
-            onClick={() => {
-              handleChatClick("chat4");
-            }}
-          >
-            chat 4
-          </button> */}
           chats
         </div>
         <div
@@ -135,7 +92,7 @@ const AdminDashboard = () => {
                 <li key={index}>
                   From: {notification.from}
                   <br />
-                  Message: {notification.message.body}{" "}
+                  Message: {notification.message}
                   {/* Adjust based on actual structure */}
                 </li>
               ))}
