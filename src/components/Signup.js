@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import axios from "axios";
 import { Link, useNavigate } from "react-router-dom";
-import "bootstrap/dist/css/bootstrap.min.css"; // Ensure Bootstrap is imported
+import "bootstrap/dist/css/bootstrap.min.css"; 
 
 const Signup = () => {
   const [mobileNumber, setMobileNumber] = useState("");
@@ -13,7 +13,7 @@ const Signup = () => {
 
   const handleRegister = async (e) => {
     e.preventDefault();
-    setLoading(true); // Set loading to true when the request starts
+    setLoading(true);
     try {
       const response = await axios.post("https://crmb.onrender.com/signup", {
         mobileNumber,
@@ -28,7 +28,7 @@ const Signup = () => {
     } catch (error) {
       setMessage(error.response.data.message);
     } finally {
-      setLoading(false); // Set loading to false when the request is finished
+      setLoading(false);
     }
   };
 
