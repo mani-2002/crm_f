@@ -20,7 +20,6 @@ const Signup = () => {
         userName,
         password,
       });
-      console.log(response);
       setMessage(response.data.message);
       setMobileNumber("");
       setUserName("");
@@ -59,7 +58,7 @@ const Signup = () => {
         </div>
       </nav>
       <div style={{ textAlign: "center" }}>
-        <h1>Register Your Company here...</h1>
+        <h1>Register here...</h1>
       </div>
       <div>
         <form

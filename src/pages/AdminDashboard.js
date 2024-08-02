@@ -1,6 +1,11 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { Link } from "react-router-dom";
+import io from "socket.io-client";
+
+const socket = io("http://localhost:3001", {
+  withCredentials: true,
+});
 
 const AdminDashboard = () => {
   const navigate = useNavigate();
@@ -16,6 +21,25 @@ const AdminDashboard = () => {
     localStorage.removeItem("token");
     navigate("/");
   };
+
+  //content changing buttons
+  // const [chatContent, setChatContent] = useState("default");
+  // const handleChatClick = (content) => {
+  //   setChatContent(content);
+  // };
+
+  //socket connection
+  const [notifications, setNotifications] = useState([]);
+
+  useEffect(() => {
+    socket.on("receiveMessage", (message) => {
+      console.log("Received Message:", message);
+      setNotifications((prevNotifications) => [...prevNotifications, message]);
+    });
+    return () => {
+      socket.off("receiveMessage");
+    };
+  }, []);
 
   return (
     <div
@@ -56,30 +80,43 @@ const AdminDashboard = () => {
             justifyContent: "center",
           }}
         >
-          <button style={{ width: "80%" }} className="btn btn-primary m-1">
-            1
+          {/* <button
+            className="btn"
+            style={{ border: "1px solid black", width: "95%" }}
+            onClick={() => {
+              handleChatClick("chat1");
+            }}
+          >
+            chat 1
           </button>
-          <button style={{ width: "80%" }} className="btn btn-primary m-1">
-            1
+          <button
+            className="btn"
+            style={{ border: "1px solid black", width: "95%" }}
+            onClick={() => {
+              handleChatClick("chat2");
+            }}
+          >
+            chat 2
           </button>
-          <button style={{ width: "80%" }} className="btn btn-primary m-1">
-            1
+          <button
+            className="btn"
+            style={{ border: "1px solid black", width: "95%" }}
+            onClick={() => {
+              handleChatClick("chat3");
+            }}
+          >
+            chat 3
           </button>
-          <button style={{ width: "80%" }} className="btn btn-primary m-1">
-            1
-          </button>
-          <button style={{ width: "80%" }} className="btn btn-primary m-1">
-            1
-          </button>
-          <button style={{ width: "80%" }} className="btn btn-primary m-1">
-            1
-          </button>
-          <button style={{ width: "80%" }} className="btn btn-primary m-1">
-            1
-          </button>
-          <button style={{ width: "80%" }} className="btn btn-primary m-1">
-            1
-          </button>
+          <button
+            className="btn"
+            style={{ border: "1px solid black", width: "95%" }}
+            onClick={() => {
+              handleChatClick("chat4");
+            }}
+          >
+            chat 4
+          </button> */}
+          chats
         </div>
         <div
           style={{
@@ -92,7 +129,20 @@ const AdminDashboard = () => {
             flexDirection: "column",
           }}
         >
-          View Messages
+          {notifications.length > 0 ? (
+            <ul>
+              {notifications.map((notification, index) => (
+                <li key={index}>
+                  From: {notification.from}
+                  <br />
+                  Message: {notification.message.body}{" "}
+                  {/* Adjust based on actual structure */}
+                </li>
+              ))}
+            </ul>
+          ) : (
+            <div>No notifications</div>
+          )}
         </div>
       </div>
     </div>
