@@ -9,16 +9,16 @@ const Login = () => {
   const [userName, setUserName] = useState("");
   const [password, setPassword] = useState("");
   const [message, setMessage] = useState("");
-  const [loading, setLoading] = useState(false); // New state for loading
+  const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
 
   axios.defaults.withCredentials = true;
 
   const handleLogin = async (e) => {
     e.preventDefault();
-    setLoading(true); // Show spinner when login starts
+    setLoading(true);
     try {
-      const response = await axios.post("https://crmb.onrender.com/login", {
+      const response = await axios.post("http://localhost:3001/login", {
         userName,
         password,
       });
@@ -37,12 +37,12 @@ const Login = () => {
     } catch (error) {
       setMessage(error.response.data.message);
     } finally {
-      setLoading(false); // Hide spinner once login is done
+      setLoading(false);
     }
   };
 
   useEffect(() => {
-    axios.get("https://crmb.onrender.com/login").then((response) => {
+    axios.get("http://localhost:3001/login").then((response) => {
       if (response.data.loggedIn) {
         console.log("your session haven't expired yet...");
       }

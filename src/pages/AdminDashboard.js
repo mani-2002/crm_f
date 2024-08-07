@@ -2,41 +2,72 @@ import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { Link } from "react-router-dom";
 import io from "socket.io-client";
+import { jwtDecode } from "jwt-decode";
+import axios from "axios";
 
-const socket = io("https://crmb.onrender.com", {
+const socket = io("http://localhost:3001", {
   withCredentials: true,
 });
 
 const AdminDashboard = () => {
   const navigate = useNavigate();
+  const token = localStorage.getItem("token");
+  const [imageSrc, setImageSrc] = useState(null);
+  const [notifications, setNotifications] = useState([]);
 
   useEffect(() => {
-    const token = localStorage.getItem("token");
     if (!token) {
       navigate("/");
+    } else {
+      const decodedToken = jwtDecode(token);
+      const loggedInUser = decodedToken.userName;
+
+      const fetchLoggedInUserDetails = async () => {
+        try {
+          const response = await axios.get(
+            `http://localhost:3001/user_data/${loggedInUser}`
+          );
+          setImageSrc(response.data.image);
+        } catch (error) {
+          console.error("Error fetching image:", error);
+        }
+      };
+
+      const fetchMessages = async () => {
+        try {
+          const response = await axios.get(
+            "http://localhost:3001/admin_messages"
+          );
+          setNotifications(response.data);
+        } catch (error) {
+          console.error("Error fetching messages:", error);
+        }
+      };
+
+      fetchLoggedInUserDetails();
+      fetchMessages();
     }
-  }, [navigate]);
+  }, [navigate, token]);
 
-  const handleLogout = () => {
-    localStorage.removeItem("token");
-    navigate("/");
-  };
-
-  //for web sockets
-  const [notifications, setNotifications] = useState([]);
   useEffect(() => {
     socket.on("receiveMessage", (message) => {
       console.log("Received message:", message);
-      setNotifications((prevNotifications) => [...prevNotifications, message]);
+      setNotifications((prevNotifications) => [message, ...prevNotifications]);
     });
     return () => {
       socket.off("receiveMessage");
     };
   }, []);
 
+  const handleLogout = () => {
+    localStorage.removeItem("token");
+    navigate("/");
+  };
+
   return (
     <div
       style={{
+        width: "100%",
         display: "flex",
         flexDirection: "column",
         alignItems: "center",
@@ -44,6 +75,52 @@ const AdminDashboard = () => {
         height: "90vh",
       }}
     >
+      <div
+        style={{
+          display: "flex",
+          width: "90%",
+          alignItems: "center",
+          justifyContent: "center",
+          border: "1px solid black",
+        }}
+      >
+        <div
+          style={{
+            width: "90%",
+            display: "flex",
+            alignItems: "center",
+            justifyContent: "center",
+          }}
+        >
+          <div style={{ fontWeight: "bold", fontSize: "5vh" }}>
+            Admin Dashboard
+          </div>
+        </div>
+        <div
+          style={{
+            width: "10%",
+            height: "10vh",
+            display: "flex",
+            alignItems: "center",
+            justifyContent: "right",
+          }}
+        >
+          {imageSrc ? (
+            <img
+              src={imageSrc}
+              alt="User"
+              style={{
+                width: "9vh",
+                height: "9vh",
+                margin: "2vh",
+                borderRadius: "50%",
+              }}
+            />
+          ) : (
+            <p>No Image Available</p>
+          )}
+        </div>
+      </div>
       <div style={{ display: "flex", width: "90%" }}>
         <div
           style={{

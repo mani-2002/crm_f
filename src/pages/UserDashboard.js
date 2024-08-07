@@ -14,19 +14,28 @@ const UserDashboard = () => {
   const [messageStatus, setMessageStatus] = useState("");
   const [showToast, setShowToast] = useState(false);
   const [userName, setUserName] = useState("");
+  const [imageSrc, setImageSrc] = useState(null);
 
   useEffect(() => {
     if (!token) {
       navigate("/");
     } else {
-      try {
-        const decodedToken = jwtDecode(token);
-        setUserName(decodedToken.userName);
-      } catch (error) {
-        console.error("Error decoding token:", error);
-      }
+      const decodedToken = jwtDecode(token);
+      const loggedInUser = decodedToken.userName;
+      setUserName(loggedInUser);
+      const fetchLoggedInUserDetails = async () => {
+        try {
+          const response = await axios.get(
+            `http://localhost:3001/user_data/${loggedInUser}`
+          );
+          setImageSrc(response.data.image);
+        } catch (error) {
+          console.error("Error fetching image:", error);
+        }
+      };
+      fetchLoggedInUserDetails();
     }
-  }, [navigate, token]);
+  }, [navigate, token, userName]);
 
   const handleLogout = () => {
     localStorage.removeItem("token");
@@ -36,13 +45,10 @@ const UserDashboard = () => {
   const sendMessage = async (e) => {
     e.preventDefault();
     try {
-      const response = await axios.post(
-        "https://crmb.onrender.com/user_message",
-        {
-          message,
-          token,
-        }
-      );
+      const response = await axios.post("http://localhost:3001/user_message", {
+        message,
+        token,
+      });
       setMessageStatus(response.data.message);
       setMessage("");
       setShowToast(true);
@@ -59,7 +65,7 @@ const UserDashboard = () => {
       try {
         const token = localStorage.getItem("token");
         const response = await axios.get(
-          "https://crmb.onrender.com/user_messages",
+          "http://localhost:3001/user_messages",
           {
             headers: {
               Authorization: `${token}`,
@@ -90,7 +96,43 @@ const UserDashboard = () => {
         height: "90vh",
       }}
     >
-      <div>Loggedin User : {userName}</div>
+      <div
+        style={{
+          display: "flex",
+          width: "90%",
+          alignItems: "center",
+          justifyContent: "space-between",
+          border: "1px solid black",
+        }}
+      >
+        <div style={{ marginLeft: "2vh" }}>{userName}</div>
+        <div style={{ fontWeight: "bold", fontSize: "5vh" }}>
+          User Dashboard
+        </div>
+        <div
+          style={{
+            height: "10vh",
+            display: "flex",
+            alignItems: "center",
+            justifyContent: "center",
+            margin: "0 1vh 0 0",
+          }}
+        >
+          {imageSrc ? (
+            <img
+              src={imageSrc}
+              alt="User"
+              style={{
+                width: "9vh",
+                height: "9vh",
+                borderRadius: "50%",
+              }}
+            />
+          ) : (
+            <p>No Image Available</p>
+          )}
+        </div>
+      </div>
       <div style={{ display: "flex", width: "90%" }}>
         <div
           style={{

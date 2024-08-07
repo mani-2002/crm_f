@@ -9,17 +9,29 @@ const Signup = () => {
   const [password, setPassword] = useState("");
   const [message, setMessage] = useState("");
   const [loading, setLoading] = useState(false);
+  const [file, setFile] = useState(null);
   const navigate = useNavigate();
 
   const handleRegister = async (e) => {
     e.preventDefault();
     setLoading(true);
+    const formData = new FormData();
+    formData.append("mobileNumber", mobileNumber);
+    formData.append("userName", userName);
+    formData.append("password", password);
+    if (file) {
+      formData.append("file", file);
+    }
     try {
-      const response = await axios.post("https://crmb.onrender.com/signup", {
-        mobileNumber,
-        userName,
-        password,
-      });
+      const response = await axios.post(
+        "http://localhost:3001/signup",
+        formData,
+        {
+          headers: {
+            "Content-Type": "multipart/form-data",
+          },
+        }
+      );
       setMessage(response.data.message);
       setMobileNumber("");
       setUserName("");
@@ -79,7 +91,7 @@ const Signup = () => {
               setMobileNumber(e.target.value);
             }}
             maxLength="10"
-            className="form-control w-25"
+            className="form-control w-50"
           />
           <br />
           <input
@@ -89,7 +101,7 @@ const Signup = () => {
             onChange={(e) => {
               setUserName(e.target.value);
             }}
-            className="form-control w-25"
+            className="form-control w-50"
           />
           <br />
           <input
@@ -99,7 +111,15 @@ const Signup = () => {
             onChange={(e) => {
               setPassword(e.target.value);
             }}
-            className="form-control w-25"
+            className="form-control w-50"
+          />
+          <br />
+          <input
+            type="file"
+            className="form-control w-50"
+            onChange={(e) => {
+              setFile(e.target.files[0]);
+            }}
           />
           <br />
           <button type="submit" className="btn btn-success">
