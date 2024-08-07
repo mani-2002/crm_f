@@ -24,7 +24,7 @@ const Signup = () => {
     }
     try {
       const response = await axios.post(
-        "http://localhost:3001/signup",
+        "https://crm-b-zs7s.onrender.com/signup",
         formData,
         {
           headers: {

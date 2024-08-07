@@ -26,7 +26,7 @@ const UserDashboard = () => {
       const fetchLoggedInUserDetails = async () => {
         try {
           const response = await axios.get(
-            `http://localhost:3001/user_data/${loggedInUser}`
+            `https://crm-b-zs7s.onrender.com/user_data/${loggedInUser}`
           );
           setImageSrc(response.data.image);
         } catch (error) {
@@ -45,7 +45,7 @@ const UserDashboard = () => {
   const sendMessage = async (e) => {
     e.preventDefault();
     try {
-      const response = await axios.post("http://localhost:3001/user_message", {
+      const response = await axios.post("https://crm-b-zs7s.onrender.com/user_message", {
         message,
         token,
       });
@@ -65,7 +65,7 @@ const UserDashboard = () => {
       try {
         const token = localStorage.getItem("token");
         const response = await axios.get(
-          "http://localhost:3001/user_messages",
+          "https://crm-b-zs7s.onrender.com/user_messages",
           {
             headers: {
               Authorization: `${token}`,

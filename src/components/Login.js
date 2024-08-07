@@ -18,7 +18,7 @@ const Login = () => {
     e.preventDefault();
     setLoading(true);
     try {
-      const response = await axios.post("http://localhost:3001/login", {
+      const response = await axios.post("https://crm-b-zs7s.onrender.com/login", {
         userName,
         password,
       });
@@ -42,7 +42,7 @@ const Login = () => {
   };
 
   useEffect(() => {
-    axios.get("http://localhost:3001/login").then((response) => {
+    axios.get("https://crm-b-zs7s.onrender.com/login").then((response) => {
       if (response.data.loggedIn) {
         console.log("your session haven't expired yet...");
       }

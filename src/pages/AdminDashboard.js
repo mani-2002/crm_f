@@ -5,7 +5,7 @@ import io from "socket.io-client";
 import { jwtDecode } from "jwt-decode";
 import axios from "axios";
 
-const socket = io("http://localhost:3001", {
+const socket = io("https://crm-b-zs7s.onrender.com", {
   withCredentials: true,
 });
 
@@ -25,7 +25,7 @@ const AdminDashboard = () => {
       const fetchLoggedInUserDetails = async () => {
         try {
           const response = await axios.get(
-            `http://localhost:3001/user_data/${loggedInUser}`
+            `https://crm-b-zs7s.onrender.com/user_data/${loggedInUser}`
           );
           setImageSrc(response.data.image);
         } catch (error) {
@@ -36,7 +36,7 @@ const AdminDashboard = () => {
       const fetchMessages = async () => {
         try {
           const response = await axios.get(
-            "http://localhost:3001/admin_messages"
+            "https://crm-b-zs7s.onrender.com/admin_messages"
           );
           setNotifications(response.data);
         } catch (error) {
